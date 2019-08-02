@@ -1,0 +1,30 @@
+<div class="flex">
+    <div class="box-flex align-self-center">
+      <ng-content select=".title"></ng-content>
+    </div>
+    <div *ngIf="search" class="box-flex float-right">
+      <mat-form-field>
+        <input matInput placeholder="Search" (input)="filterChanged($event.target.value)" autocomplete="off">
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [style.padding]="checkbox ? '0px': '40px'">
+      <button mat-button (click)="data.emit(node)" [disabled]="node.data.id == -1 ? true : false">
+        <span *ngIf="!checkbox">{{node.item}}</span>
+      </button>
+      <mat-checkbox *ngIf="checkbox"
+        [checked]="checklistSelection.isSelected(node)"
+        (change)="checklistSelection.toggle(node); data.emit(this.checklistSelection.selected);">{{node.item}}</mat-checkbox>
+    </mat-tree-node>
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'toggle ' + node.name">
+        <mat-icon> {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} </mat-icon>
+      </button>
+      <mat-checkbox *ngIf="checkbox" 
+        [checked]="checklistSelection.isSelected(node)"
+        (change)="checklistSelection.toggle(node); data.emit(this.checklistSelection.selected);">{{node.item}}</mat-checkbox>
+      <span *ngIf="!checkbox">{{node.item}}</span>
+    </mat-tree-node>
+  </mat-tree>

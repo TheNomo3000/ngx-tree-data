@@ -37,8 +37,7 @@ export class NgxTreeDataComponent {
     this.treeControl = new FlatTreeControl<ItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
     this.loaderId = 'loader-tree-data' + Math.floor((Math.random() * 100) + 1);
-    database.dataChange.subscribe( res => {
-      const data = res.data;
+    database.dataChange.subscribe( data => {
       if (this.selectedFirst) {
         data.forEach( el => {
           if (el.children) {

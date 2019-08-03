@@ -46,6 +46,6 @@ export class AppComponent {
       }
       parent++;
     });
-    this.treeService.initialize(dataSource, 'entity');
+    this.treeService.initialize(dataSource);
   }
 }

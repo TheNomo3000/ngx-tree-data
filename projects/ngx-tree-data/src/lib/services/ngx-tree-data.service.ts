@@ -3,31 +3,23 @@ import { BehaviorSubject } from 'rxjs';
 import { PlatformLocation } from '@angular/common';
 import { ItemNode } from '../models/models';
 
-interface IData {
-  data: ItemNode [];
-  type: string;
-}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgxTreeDataService {
-  dataChange = new BehaviorSubject<IData>({data: [], type: ''});
+  dataChange = new BehaviorSubject<ItemNode []>(null);
   treeData: any[];
-  type: string;
   dataSource = [];
-  get data(): IData { return  this.dataChange.value; }
+  get data(): ItemNode [] { return  this.dataChange.value; }
   loaderId: string;
   constructor(private platformLocation: PlatformLocation) {}
 
-  initialize(data: any, type: string) {
-    this.type = type;
+  initialize(data: any) {
     this.dataSource = data;
     this.treeData = this.dataSource;
-    const newData = {
-      data: this.buildFileTree(this.dataSource, '0'),
-      type: this.type
-    };
+    const newData = this.buildFileTree(this.dataSource, '0');
     this.dataChange.next(newData);
   }
 
@@ -70,10 +62,7 @@ export class NgxTreeDataService {
       filteredTreeData = this.treeData;
     }
 
-    const data = {
-      data: this.buildFileTree(filteredTreeData, '0'),
-      type: this.type
-    };
+    const data = this.buildFileTree(filteredTreeData, '0');
     this.dataChange.next(data);
   }
 }

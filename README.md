@@ -1,27 +1,32 @@
-# NgxTreeDataProject
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.2.
+# NgxTreeData
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Description
 
-## Code scaffolding
+It is a complete and lightweight component for loading data in tree form using the Material CDK, such as Angular Material.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![demo](https://i.ibb.co/FmwL4h2/ngx-tree-data.png)
+  
 
-## Build
+## Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Just add the `NgxTreeDataModule` module to use the component.
+``` typescript
+import { NgxTreeDataModule } from 'ngx-toggle-switch';
+import { AppComponent } from './app.component';
 
-## Running unit tests
+@NgModule({
+	imports: [
+		 BrowserModule,
+		 UiSwitchModule
+	],
+	declarations:  [AppComponent],
+	bootstrap:  [AppComponent]
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+})
 
-## Running end-to-end tests
+export class AppModule { }
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+You have an demo in [stackblitz](https://stackblitz.com/edit/ngx-tree-data?file=src/app/tree-data/tree-data.component.ts)

@@ -1,26 +1,62 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PlatformLocation } from '@angular/common';
-import { ItemNode } from '../models/models';
+import { ItemNode, TreeData } from '../models/models';
 @Injectable({
   providedIn: 'root'
 })
 export class NgxTreeDataService {
   dataChange = new BehaviorSubject<ItemNode []>(null);
-  treeData: any[];
+  treeData: any [];
+  externalData: TreeData [];
   dataSource = [];
   get data(): ItemNode [] { return  this.dataChange.value; }
   loaderId: string;
   constructor(private platformLocation: PlatformLocation) {}
 
-  initialize(data: any) {
-    this.dataSource = data;
+  initialize(data: TreeData []) {
+    this.externalData = data;
+    this.dataSource = this.generateDataWithCode(data);
     this.treeData = this.dataSource;
     const newData = this.buildFileTree(this.dataSource, '0');
     this.dataChange.next(newData);
   }
 
-  buildFileTree(obj: any[], level: string): ItemNode [] {
+  private generateDataWithCode(data: TreeData []): any[] {
+    const newData = [];
+    let parent = 1;
+    data.forEach( item => {
+      newData.push(
+        {
+          text: item.text,
+          id: item.id,
+          code: `0.${parent}`,
+          selected: item.selected,
+          data: item.data
+        }
+      );
+      const childrens = item.children;
+      if ( childrens.length > 0) {
+        let children = 1;
+        childrens.forEach( el => {
+          newData.push(
+            {
+              text : el.text,
+              code : `0.${parent}.${children}`,
+              selected: el.selected,
+              id: el.id,
+              data : item.data
+            }
+          );
+          children++;
+        });
+      }
+      parent++;
+    });
+    return newData;
+  }
+
+  private buildFileTree(obj: any[], level: string): ItemNode [] {
     return obj.filter(o =>
       (o.code as string).startsWith(level + '.')
       && (o.code.match(/\./g) || []).length === (level.match(/\./g) || []).length + 1
@@ -60,8 +96,20 @@ export class NgxTreeDataService {
     } else {
       filteredTreeData = this.treeData;
     }
-
     const data = this.buildFileTree(filteredTreeData, '0');
     this.dataChange.next(data);
+  }
+
+  public updateData(items: ItemNode [], externalData ?: TreeData [] | null): void {
+    if (!externalData) {
+      externalData = this.externalData;
+    }
+    externalData.map( (obj: TreeData) => {
+      items.filter( (o: ItemNode) => (o.item as string).localeCompare(obj.text as string) ? null :  obj.selected = true);
+      const children = obj.children;
+      if (children && obj.children.length > 0) {
+        this.updateData(items, children);
+      }
+    });
   }
 }

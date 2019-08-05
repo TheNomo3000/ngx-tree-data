@@ -1,10 +1,21 @@
 {
   "name": "ngx-tree-data",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"
   },
-  "keywords": ["angular", "angular 8", "tree", "data", "Material", "CDK", "View", "Checkbox", "list", "CDK Tree"]
+  "keywords": [
+    "angular",
+    "angular 8",
+    "tree",
+    "data",
+    "Material",
+    "CDK",
+    "View",
+    "Checkbox",
+    "list",
+    "CDK Tree"
+  ]
 }

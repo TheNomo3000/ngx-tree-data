@@ -17,10 +17,10 @@ export class ItemFlatNode {
     data: any;
 }
 
-export class ItemTreeData {
+export class TreeData {
     text: string;
     id ?= -1;
     selected: boolean;
-    children: ItemTreeData [] | null;
+    children: TreeData [] | null;
     data ?: any = null;
 }

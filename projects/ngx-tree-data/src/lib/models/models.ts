@@ -1,20 +1,26 @@
 export class ItemNode {
     children: ItemNode[];
+    id ?= -1;
     item: string;
     code: string;
+    selected: boolean;
     data: any;
 }
 
 export class ItemFlatNode {
+    id ?= -1;
     item: string;
     level: number;
     expandable: boolean;
+    selected: boolean;
     code: string;
     data: any;
 }
 
-export interface TreeData {
+export class ItemTreeData {
     text: string;
-    code: string;
-    data: any;
+    id ?= -1;
+    selected: boolean;
+    children: ItemTreeData [] | null;
+    data ?: any = null;
 }

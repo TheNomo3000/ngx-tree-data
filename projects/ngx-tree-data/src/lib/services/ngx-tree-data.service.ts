@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PlatformLocation } from '@angular/common';
 import { ItemNode } from '../models/models';
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +30,8 @@ export class NgxTreeDataService {
         node.item = o.text;
         node.code = o.code;
         node.data = o.data;
+        node.id = o.id;
+        node.selected = o.selected;
         const children = obj.filter(so => (so.code as string).startsWith(level + '.'));
         if (children && children.length > 0) {
             node.children = this.buildFileTree(children, o.code);

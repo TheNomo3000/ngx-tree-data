@@ -77,6 +77,11 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
     flatNode.level = level;
     flatNode.code = node.code;
     flatNode.data = node.data;
+    flatNode.selected = node.selected;
+    flatNode.id = node.id;
+    if (flatNode.selected) {
+      this.checklistSelection.select(flatNode);
+    }
     flatNode.expandable = node.children && node.children.length > 0;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);

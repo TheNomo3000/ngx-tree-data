@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PlatformLocation } from '@angular/common';
-import { ItemNode, TreeData } from '../models/models';
-import { ItemFlatNode } from 'ngx-tree-data/lib/models/models';
+import { ItemNode, TreeData, ItemFlatNode } from '../models/models';
 @Injectable({
   providedIn: 'root'
 })

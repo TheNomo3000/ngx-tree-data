@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PlatformLocation } from '@angular/common';
 import { ItemNode, TreeData } from '../models/models';
+import { ItemFlatNode } from 'ngx-tree-data/lib/models/models';
 @Injectable({
   providedIn: 'root'
 })
@@ -100,12 +101,12 @@ export class NgxTreeDataService {
     this.dataChange.next(data);
   }
 
-  public updateData(items: ItemNode [], externalData ?: TreeData [] | null): void {
+  public updateData(items: ItemFlatNode [], externalData ?: TreeData [] | null): void {
     if (!externalData) {
       externalData = this.externalData;
     }
     externalData.map( (obj: TreeData) => {
-      items.filter( (o: ItemNode) => (o.item as string).localeCompare(obj.text as string) ? null :  obj.selected = true);
+      items.filter( (o: ItemFlatNode) => (o.item as string).localeCompare(obj.text as string) ? null :  obj.selected = true);
       const children = obj.children;
       if (children && obj.children.length > 0) {
         this.updateData(items, children);

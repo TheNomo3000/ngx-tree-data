@@ -19,11 +19,11 @@ export class AppComponent {
     this.data.forEach( item => {
       dataSource.push(
         {
+          id: item.id,
           text: item.name,
           code: `0.${parent}`,
           data: {
             parent: true,
-            id: item.id
           }
         }
       );
@@ -32,12 +32,12 @@ export class AppComponent {
         childrens.forEach( subitem => {
           dataSource.push(
             {
+              id: subitem.id,
               text : subitem.name,
               code : `0.${parent}.${children}`,
               parent: item.name,
               data : {
                 parent: false,
-                id: subitem.id,
               }
             }
           );

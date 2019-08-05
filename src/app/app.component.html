@@ -1,8 +1,14 @@
    
 
 <mat-card class="example-card">
+    <mat-card-content>
+      <h2>Config</h2>
+    </mat-card-content>
+  </mat-card>
+
+<mat-card class="example-card">
   <mat-card-content>
-     <ngx-tree-data (data)="dataSelected = $event" [checkbox]="true" [search]="true">
+     <ngx-tree-data (data)="dataSelected = $event" [checkbox]="true" [search]="true" [selectThis]="1">
         <div class="title">
             <h2>Ngx-tree-data</h2>
         </div>
@@ -12,6 +18,7 @@
 
 <mat-card class="example-card">
     <mat-card-content>
+      <h3>RESULT</h3>
       <ng-container *ngFor="let item of dataSelected" >
         <div class="item">{{ item | json }}</div>
       </ng-container>

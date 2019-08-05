@@ -1,18 +1,20 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ItemNode, ItemFlatNode } from './models/models';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgxTreeDataService } from './services/ngx-tree-data.service';
+import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
   selector: 'ngx-tree-data',
   templateUrl: `ngx-tree-data.component.html`,
   styleUrls: [`ngx-tree-data.component.scss`]
 })
-export class NgxTreeDataComponent {
+export class NgxTreeDataComponent implements OnDestroy, OnInit {
   @Output() data = new EventEmitter<ItemNode | ItemFlatNode []>();
-  @Input() selectedFirst = false;
+  @Input() selectFirst = false;
+  @Input() selectThis: number = null;
   @Input() checkbox = false;
   @Input() search = false;
   @Input() multiple = true;
@@ -37,8 +39,11 @@ export class NgxTreeDataComponent {
     this.treeControl = new FlatTreeControl<ItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
     this.loaderId = 'loader-tree-data' + Math.floor((Math.random() * 100) + 1);
-    database.dataChange.subscribe( data => {
-      if (this.selectedFirst) {
+  }
+
+  ngOnInit() {
+    this.database.dataChange.subscribe( data => {
+      if (this.selectFirst) {
         data.forEach( el => {
           if (el.children) {
             el.children.forEach( item => {
@@ -46,6 +51,11 @@ export class NgxTreeDataComponent {
             });
           }
         });
+      } else if (this.selectThis) {
+        data.filter( (o: ItemNode) => (o.id as number) === (this.selectThis as number) )
+          .map( (item: ItemNode ) => {
+            this.data.emit(item);
+          });
       }
       this.dataSource.data = data;
     });
@@ -101,5 +111,9 @@ export class NgxTreeDataComponent {
     } else {
       this.treeControl.collapseAll();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.dataSource.data = [];
   }
 }

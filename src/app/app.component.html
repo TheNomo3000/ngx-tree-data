@@ -3,12 +3,14 @@
 <mat-card class="example-card">
     <mat-card-content>
       <h2>Config</h2>
+      <div><mat-checkbox [(ngModel)]="checkbox">Checkbox Mode</mat-checkbox></div>
+      <div><mat-checkbox [(ngModel)]="search">Search bar</mat-checkbox></div>
     </mat-card-content>
   </mat-card>
 
 <mat-card class="example-card">
   <mat-card-content>
-     <ngx-tree-data (data)="dataSelected = $event" [checkbox]="true" [search]="true" [selectThis]="1">
+     <ngx-tree-data (selected)="dataSelected = $event" [checkbox]="checkbox" [search]="search" [selectThis]="'1'" >
         <div class="title">
             <h2>Ngx-tree-data</h2>
         </div>

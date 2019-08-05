@@ -10,12 +10,12 @@
   </div>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [style.padding]="checkbox ? '0px': '40px'">
-      <button mat-button (click)="data.emit(node)" [disabled]="node.data.id == -1 ? true : false">
+      <button mat-button (click)="selected.emit(node)" [disabled]="node.id == -1 ? true : false">
         <span *ngIf="!checkbox">{{node.item}}</span>
       </button>
       <mat-checkbox *ngIf="checkbox"
         [checked]="checklistSelection.isSelected(node)"
-        (change)="checklistSelection.toggle(node); data.emit(this.checklistSelection.selected);">{{node.item}}</mat-checkbox>
+        (change)="changeStatusNode(node)">{{node.item}}</mat-checkbox>
     </mat-tree-node>
     <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
       <button mat-icon-button matTreeNodeToggle
@@ -24,7 +24,7 @@
       </button>
       <mat-checkbox *ngIf="checkbox" 
         [checked]="checklistSelection.isSelected(node)"
-        (change)="checklistSelection.toggle(node); data.emit(this.checklistSelection.selected);">{{node.item}}</mat-checkbox>
+        (change)="changeStatusNode(node)">{{node.item}}</mat-checkbox>
       <span *ngIf="!checkbox">{{node.item}}</span>
     </mat-tree-node>
   </mat-tree>

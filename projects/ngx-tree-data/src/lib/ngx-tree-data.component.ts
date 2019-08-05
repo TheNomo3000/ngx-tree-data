@@ -4,7 +4,6 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgxTreeDataService } from './services/ngx-tree-data.service';
-import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
   selector: 'ngx-tree-data',
@@ -12,7 +11,7 @@ import { VirtualTimeScheduler } from 'rxjs';
   styleUrls: [`ngx-tree-data.component.scss`]
 })
 export class NgxTreeDataComponent implements OnDestroy, OnInit {
-  @Output() data = new EventEmitter<ItemNode | ItemFlatNode []>();
+  @Output() selected = new EventEmitter<ItemNode | ItemFlatNode []>();
   @Input() selectFirst = false;
   @Input() selectThis: number = null;
   @Input() checkbox = false;
@@ -38,7 +37,6 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
       this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<ItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-    this.loaderId = 'loader-tree-data' + Math.floor((Math.random() * 100) + 1);
   }
 
   ngOnInit() {
@@ -47,14 +45,14 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
         data.forEach( el => {
           if (el.children) {
             el.children.forEach( item => {
-              this.data.emit(item);
+              this.selected.emit(item);
             });
           }
         });
       } else if (this.selectThis) {
         data.filter( (o: ItemNode) => (o.id as number) === (this.selectThis as number) )
           .map( (item: ItemNode ) => {
-            this.data.emit(item);
+            this.selected.emit(item);
           });
       }
       this.dataSource.data = data;
@@ -109,13 +107,22 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
 
   filterChanged(filterText: string) {
     this.checklistSelection = new SelectionModel<ItemFlatNode>(this.multiple);
-    this.data.emit(this.checklistSelection.selected);
+    this.selected.emit(this.checklistSelection.selected);
     this.database.filter(filterText);
     if (filterText) {
       this.treeControl.expandAll();
     } else {
       this.treeControl.collapseAll();
     }
+  }
+
+  changeStatusNode(node: ItemFlatNode): void {
+    this.checklistSelection.toggle(node);
+    if (this.checklistSelection.isSelected(node)) {
+      node.selected = true;
+    }
+    this.database.updateData(this.checklistSelection.selected);
+    this.selected.emit(this.checklistSelection.selected);
   }
 
   ngOnDestroy(): void {

@@ -1,46 +1,51 @@
-export const DATA = [
+import { TreeData } from 'projects/ngx-tree-data/src/lib/models/models';
+
+export const DATA: TreeData [] = [
     {
       id: 1,
-      name: 'entity_1',
-      code: '0',
-      childrens: [
+      text: 'entity_1',
+      selected: false,
+      data: {
+        example: 'data'
+      },
+      children: [
         {
           id: 2,
-          name: 'entity_1.1',
-          childrens: null,
-          code: '0',
+          text: 'entity_1.1',
+          children: null,
+          selected: false,
         },
         {
           id: 2,
-          name: 'entity_1.2',
-          childrens: null,
-          code: '0',
+          text: 'entity_1.2',
+          children: null,
+          selected: false,
         },
         {
           id: 2,
-          name: 'entity_1.3',
-          childrens: null,
-          code: '0',
+          text: 'entity_1.3',
+          children: null,
+          selected: false,
         }
       ],
     },
     {
       id: 3,
-      name: 'entity_2',
-      code: '0',
-      childrens: [
+      text: 'entity_2',
+      selected: false,
+      children: [
         {
           id: 4,
-          name: 'entity_2.1',
-          childrens: null,
-          code: '0'
+          text: 'entity_2.1',
+          children: null,
+          selected: false,
         },
         {
           id: 4,
-          name: 'entity_2.2',
-          childrens: null,
-          code: '0'
+          text: 'entity_2.2',
+          children: null,
+          selected: false,
         }
       ],
     }
-  ] ;
+  ]

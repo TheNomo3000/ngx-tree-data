@@ -6,7 +6,9 @@
 
 It is a complete and lightweight component for loading data in tree form using the Material CDK, such as Angular Material.
 
-![demo](https://i.ibb.co/BCX7cLb/2019-08-06-1-49-27.gif)
+![demo](https://i.ibb.co/c3Smj8k/ngx-tree-data.png)
+
+You have an demo in [stackblitz](https://stackblitz.com/edit/ngx-tree-data?file=src/app/tree-data/tree-data.component.ts)
   
 
 ## Installation
@@ -118,4 +120,3 @@ const DATA: TreeData [] = [
 | ``@Input() checkbox: boolean`` | You must pass a `true` or `false` to enable/disable checkbox mode |
 | ``@Input() search: boolean`` | You must pass a `true` or `false` to enable/disable searchbox |
 | ``@Input() multiple: boolean`` | You must pass a `true` or `false` to set multiple select in checkbox mode|
-You have an demo in [stackblitz](https://stackblitz.com/edit/ngx-tree-data?file=src/app/tree-data/tree-data.component.ts)

@@ -12,10 +12,12 @@ import { NgxTreeDataService } from './services/ngx-tree-data.service';
 })
 export class NgxTreeDataComponent implements OnDestroy, OnInit {
   @Output() selected = new EventEmitter<ItemNode | ItemFlatNode []>();
+  @Input() autoSave = true;
   @Input() selectFirst = false;
   @Input() selectThis: number = null;
   @Input() checkbox = false;
   @Input() search = false;
+  @Input() selectAll = false;
   @Input() multiple = true;
   flatNodeMap = new Map<ItemFlatNode, ItemNode>();
   nestedNodeMap = new Map<ItemNode, ItemFlatNode>();
@@ -106,8 +108,6 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
   }
 
   filterChanged(filterText: string) {
-    this.checklistSelection = new SelectionModel<ItemFlatNode>(this.multiple);
-    this.selected.emit(this.checklistSelection.selected);
     this.database.filter(filterText);
     if (filterText) {
       this.treeControl.expandAll();
@@ -118,11 +118,18 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
 
   changeStatusNode(node: ItemFlatNode): void {
     this.checklistSelection.toggle(node);
-    if (this.checklistSelection.isSelected(node)) {
-      node.selected = true;
-    }
     this.database.updateData(this.checklistSelection.selected);
     this.selected.emit(this.checklistSelection.selected);
+  }
+
+  selectAllOptions(mode: boolean): void {
+    if (mode) {
+      this.checklistSelection.select(...this.treeControl.dataNodes);
+    } else {
+      this.checklistSelection.deselect(...this.treeControl.dataNodes);
+    }
+    this.selected.emit(this.checklistSelection.selected);
+    this.database.updateData(this.checklistSelection.selected);
   }
 
   ngOnDestroy(): void {

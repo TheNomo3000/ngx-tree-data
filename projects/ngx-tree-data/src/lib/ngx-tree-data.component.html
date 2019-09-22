@@ -8,6 +8,14 @@
       </mat-form-field>
     </div>
   </div>
+  <div class="flex" *ngIf="selectAll">
+    <div class="box-flex">
+      <button mat-stroked-button (click)="selectAllOptions(true)">Select All</button>
+    </div>
+    <div class="box-flex">
+      <button mat-stroked-button (click)="selectAllOptions(false)">Deselect All</button>
+    </div>
+  </div>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [style.padding]="checkbox ? '0px': '40px'">
       <button mat-button (click)="selected.emit(node)" [disabled]="node.id == -1 ? true : false">

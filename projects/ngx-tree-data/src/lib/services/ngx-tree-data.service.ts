@@ -16,16 +16,20 @@ export class NgxTreeDataService {
 
   initialize(data: TreeData []) {
     this.externalData = data;
+    const newData = this.generateData(this.externalData);
+    this.dataChange.next(newData);
+  }
+
+  generateData(data: TreeData []): ItemNode [] {
     this.dataSource = this.generateDataWithCode(data);
     this.treeData = this.dataSource;
-    const newData = this.buildFileTree(this.dataSource, '0');
-    this.dataChange.next(newData);
+    return this.buildFileTree(this.dataSource, '0');
   }
 
   private generateDataWithCode(data: TreeData []): any[] {
     const newData = [];
     let parent = 1;
-    data.forEach( item => {
+    data.forEach(item => {
       newData.push(
         {
           text: item.text,
@@ -36,18 +40,17 @@ export class NgxTreeDataService {
         }
       );
       const childrens = item.children;
-      if ( childrens.length > 0) {
+      if (childrens.length > 0) {
         let children = 1;
-        childrens.forEach( el => {
-          newData.push(
-            {
-              text : el.text,
-              code : `0.${parent}.${children}`,
-              selected: el.selected,
-              id: el.id,
-              data : item.data
-            }
-          );
+        childrens.forEach(el => {
+          const itemChildren = {
+            text: el.text,
+            code: `0.${parent}.${children}`,
+            selected: el.selected,
+            id: el.id,
+            data: el.data
+          };
+          newData.push(itemChildren);
           children++;
         });
       }
@@ -64,10 +67,10 @@ export class NgxTreeDataService {
       .map(o => {
         const node = new ItemNode();
         node.item = o.text;
+        node.selected = o.selected;
+        node.id = o.id;
         node.code = o.code;
         node.data = o.data;
-        node.id = o.id;
-        node.selected = o.selected;
         const children = obj.filter(so => (so.code as string).startsWith(level + '.'));
         if (children && children.length > 0) {
             node.children = this.buildFileTree(children, o.code);
@@ -77,6 +80,7 @@ export class NgxTreeDataService {
   }
 
   public filter(filterText: string) {
+    this.treeData = this.generateDataWithCode(this.externalData);
     let filteredTreeData;
     if (filterText) {
       filteredTreeData = this.treeData.filter(d => d.text.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
@@ -101,15 +105,22 @@ export class NgxTreeDataService {
   }
 
   public updateData(items: ItemFlatNode [], externalData ?: TreeData [] | null): void {
-    if (!externalData) {
-      externalData = this.externalData;
-    }
-    externalData.map( (obj: TreeData) => {
-      items.filter( (o: ItemFlatNode) => (o.item as string).localeCompare(obj.text as string) ? null :  obj.selected = true);
-      const children = obj.children;
-      if (children && obj.children.length > 0) {
-        this.updateData(items, children);
+    this.externalData = this.recursiveUpdate(items, this.externalData);
+  }
+
+  recursiveUpdate(items: ItemFlatNode[], externalData: TreeData []): TreeData [] {
+    externalData.map(data => {
+      data.selected = false;
+      items.forEach(el => {
+        if (el.id === data.id) {
+          data.selected = true;
+        }
+      });
+      const children = data.children;
+      if (children && data.children.length > 0) {
+        this.recursiveUpdate(items, children);
       }
     });
+    return externalData;
   }
 }

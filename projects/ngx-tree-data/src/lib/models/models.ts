@@ -20,7 +20,7 @@ export class ItemFlatNode {
 export class TreeData {
     text: string;
     id ?= -1;
-    selected: boolean;
+    selected = false;
     children: TreeData [] | null;
     data ?: any = null;
 }

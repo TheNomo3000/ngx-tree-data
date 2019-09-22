@@ -5,12 +5,19 @@
       <h2>Config</h2>
       <div><mat-checkbox [(ngModel)]="checkbox">Checkbox Mode</mat-checkbox></div>
       <div><mat-checkbox [(ngModel)]="search">Search bar</mat-checkbox></div>
+      <div><mat-checkbox [(ngModel)]="autoSave">Autosave</mat-checkbox></div>
+      <div><mat-checkbox [(ngModel)]="selectAll">Select all & Deselect all</mat-checkbox></div>
+      <mat-divider *ngIf="!autoSave"></mat-divider>
+      <div class="flex" style="margin-top: 20px">
+        <button *ngIf="!autoSave" mat-raised-button (click)="saveChanges()">Save</button>
+        <button *ngIf="!autoSave" mat-raised-button (click)="discardChanges()">Discard last changes</button>
+      </div>
     </mat-card-content>
   </mat-card>
 
 <mat-card class="example-card">
   <mat-card-content>
-     <ngx-tree-data (selected)="dataSelected = $event" [checkbox]="checkbox" [search]="search" [selectThis]="'1'" >
+     <ngx-tree-data (selected)="dataSelected = $event" [checkbox]="checkbox" [search]="search" [selectThis]="'1'" [autoSave]="autoSave" [selectAll]="selectAll">
         <div class="title">
             <h2>Ngx-tree-data</h2>
         </div>

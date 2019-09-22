@@ -13,16 +13,16 @@ export const DATA: TreeData [] = [
           id: 2,
           text: 'item_1.1',
           children: null,
-          selected: false,
+          selected: true,
         },
         {
-          id: 2,
+          id: 3,
           text: 'item_1.2',
           children: null,
-          selected: false,
+          selected: true,
         },
         {
-          id: 2,
+          id: 4,
           text: 'item_1.3',
           children: null,
           selected: false,
@@ -30,18 +30,18 @@ export const DATA: TreeData [] = [
       ],
     },
     {
-      id: 3,
+      id: 5,
       text: 'item_2',
-      selected: false,
+      selected: true,
       children: [
         {
-          id: 4,
+          id: 6,
           text: 'item_2.1',
           children: null,
           selected: false,
         },
         {
-          id: 4,
+          id: 7,
           text: 'item_2.2',
           children: null,
           selected: false,

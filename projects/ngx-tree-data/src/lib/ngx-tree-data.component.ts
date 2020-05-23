@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, OnDestroy, OnInit, OnChanges } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, SimpleChange } from '@angular/core';
 import { ItemNode, ItemFlatNode } from './models/models';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
@@ -9,9 +9,10 @@ import { NgxTreeDataConfig } from './models/config-model';
 @Component({
   selector: 'ngx-tree-data',
   templateUrl: `ngx-tree-data.component.html`,
-  styleUrls: [`ngx-tree-data.component.scss`]
+  styleUrls: [`ngx-tree-data.component.scss`],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgxTreeDataComponent implements OnDestroy, OnInit {
+export class NgxTreeDataComponent implements OnDestroy, OnInit, OnChanges {
   @Output() selected = new EventEmitter<ItemNode | ItemFlatNode []>();
   @Input() config: NgxTreeDataConfig;
   flatNodeMap = new Map<ItemFlatNode, ItemNode>();
@@ -56,6 +57,13 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
       }
       this.dataSource.data = data;
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const { config } = changes;
+    if (config && !config.firstChange) {
+      this.checklistSelection = new SelectionModel<ItemFlatNode>(this.config.multiple);
+    }
   }
 
   getLevel = (node: ItemFlatNode) => node.level;

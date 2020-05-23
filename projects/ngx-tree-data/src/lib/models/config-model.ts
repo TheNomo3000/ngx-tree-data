@@ -1,5 +1,4 @@
 export class NgxTreeDataConfig {
-    autoSave?: boolean;
     selectFirst?: boolean;
     selectThis?: number;
     checkbox?: boolean;

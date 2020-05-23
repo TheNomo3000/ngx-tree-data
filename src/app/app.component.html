@@ -3,19 +3,12 @@
     <mat-card class="example-card">
       <mat-card-content>
         <h2>Config</h2>
-        <div><mat-checkbox [(ngModel)]="config.checkbox">Checkbox Mode</mat-checkbox></div>
-        <div><mat-checkbox [(ngModel)]="config.multiple">Multiple Mode</mat-checkbox></div>
-        <div><mat-checkbox [(ngModel)]="config.search">Search bar</mat-checkbox></div>
-        <div><mat-checkbox [(ngModel)]="config.autoSave">Autosave</mat-checkbox></div>
-        <div><mat-checkbox [(ngModel)]="config.selectAll">Select all & Deselect all</mat-checkbox></div>
-        <mat-divider *ngIf="!autoSave"></mat-divider>
-        <div class="flex" style="margin-top: 20px">
-          <button *ngIf="!autoSave" mat-raised-button (click)="saveChanges()">Save</button>
-          <button *ngIf="!autoSave" mat-raised-button (click)="discardChanges()">Discard last changes</button>
-        </div>
+        <div><mat-checkbox [(ngModel)]="config.checkbox" (change)="reloadConfig($event)">Checkbox Mode</mat-checkbox></div>
+        <div><mat-checkbox [(ngModel)]="config.multiple" (change)="reloadConfig($event)">Multiple Mode</mat-checkbox></div>
+        <div><mat-checkbox [(ngModel)]="config.search" (change)="reloadConfig($event)">Search bar</mat-checkbox></div>
+        <div><mat-checkbox [(ngModel)]="config.selectAll" >Select all & Deselect all</mat-checkbox></div>
       </mat-card-content>
     </mat-card>
-
     <mat-card class="example-card">
       <mat-card-content>
         <ngx-tree-data (selected)="dataSelected = $event" [config]="config">
@@ -26,7 +19,6 @@
       </mat-card-content>
     </mat-card>
   </div>
-
   <div class="cont">
     <mat-card class="example-card">
       <mat-card-content>

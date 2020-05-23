@@ -12,13 +12,12 @@ import { NgxTreeDataConfig } from 'projects/ngx-tree-data/src/lib/models/config-
 export class AppComponent {
   @Output() selectedChange = new EventEmitter<ItemNode []>();
   config: NgxTreeDataConfig = {
-    autoSave: true,
     selectFirst: false,
     selectThis: -1,
     checkbox: true,
     search: false,
     selectAll: false,
-    multiple: true,
+    multiple: false,
   };
 
   data = DATA;
@@ -29,6 +28,9 @@ export class AppComponent {
   constructor(private treeService: NgxTreeDataService) {
     this.dataSource = JSON.parse(JSON.stringify(this.data));
     this.treeService.initialize(this.data);
+    this.treeService.dataChange.subscribe( (e) => {
+      console.log(e);
+    });
   }
 
   discardChanges() {
@@ -38,9 +40,15 @@ export class AppComponent {
   }
 
   saveChanges() {
-    this.data = this.treeService.externalData;
-    this.dataSource = this.treeService.externalData;
+    this.data = [...this.treeService.externalData];
+    this.dataSource = [...this.treeService.externalData];
     this.selectedChange.emit(this.selectedNodes);
+    console.log('DATA :', this.data);
+    console.log('DATAs :', this.dataSource);
     this.treeService.initialize(this.data);
+  }
+
+  reloadConfig(e): void {
+    this.config = {...this.config};
   }
 }

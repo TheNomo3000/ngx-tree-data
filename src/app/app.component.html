@@ -1,35 +1,32 @@
-   
-
-<mat-card class="example-card">
-    <mat-card-content>
-      <h2>Config</h2>
-      <div><mat-checkbox [(ngModel)]="checkbox">Checkbox Mode</mat-checkbox></div>
-      <div><mat-checkbox [(ngModel)]="search">Search bar</mat-checkbox></div>
-      <div><mat-checkbox [(ngModel)]="autoSave">Autosave</mat-checkbox></div>
-      <div><mat-checkbox [(ngModel)]="selectAll">Select all & Deselect all</mat-checkbox></div>
-      <mat-divider *ngIf="!autoSave"></mat-divider>
-      <div class="flex" style="margin-top: 20px">
-        <button *ngIf="!autoSave" mat-raised-button (click)="saveChanges()">Save</button>
-        <button *ngIf="!autoSave" mat-raised-button (click)="discardChanges()">Discard last changes</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-<mat-card class="example-card">
-  <mat-card-content>
-     <ngx-tree-data (selected)="dataSelected = $event" [checkbox]="checkbox" [search]="search" [selectThis]="'1'" [autoSave]="autoSave" [selectAll]="selectAll">
-        <div class="title">
-            <h2>Ngx-tree-data</h2>
-        </div>
-    </ngx-tree-data>
-  </mat-card-content>
-</mat-card>
-
-<mat-card class="example-card">
-    <mat-card-content>
-      <h3>RESULT</h3>
-      <ng-container *ngFor="let item of dataSelected" >
-        <div class="item">{{ item | json }}</div>
-      </ng-container>
-    </mat-card-content>
-</mat-card>
+<div class="container">
+  <div class="cont">
+    <mat-card class="example-card">
+      <mat-card-content>
+        <h2>Config</h2>
+        <div><mat-checkbox [(ngModel)]="config.checkbox" (change)="reloadConfig($event)">Checkbox Mode</mat-checkbox></div>
+        <div><mat-checkbox [(ngModel)]="config.multiple" (change)="reloadConfig($event)">Multiple Mode</mat-checkbox></div>
+        <div><mat-checkbox [(ngModel)]="config.search" (change)="reloadConfig($event)">Search bar</mat-checkbox></div>
+        <div><mat-checkbox [(ngModel)]="config.selectAll" >Select all & Deselect all</mat-checkbox></div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <ngx-tree-data (selected)="dataSelected = $event" [config]="config">
+            <div class="title">
+                <h2>Ngx-tree-data</h2>
+            </div>
+        </ngx-tree-data>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="cont">
+    <mat-card class="example-card">
+      <mat-card-content>
+        <h3>RESULT</h3>
+        <ng-container *ngFor="let item of dataSelected" >
+          <div class="item">{{ item | json }}</div>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

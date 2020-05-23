@@ -1,24 +1,20 @@
-import { Component, Output, Input, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, SimpleChange } from '@angular/core';
 import { ItemNode, ItemFlatNode } from './models/models';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgxTreeDataService } from './services/ngx-tree-data.service';
+import { NgxTreeDataConfig } from './models/config-model';
 
 @Component({
   selector: 'ngx-tree-data',
   templateUrl: `ngx-tree-data.component.html`,
-  styleUrls: [`ngx-tree-data.component.scss`]
+  styleUrls: [`ngx-tree-data.component.scss`],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgxTreeDataComponent implements OnDestroy, OnInit {
+export class NgxTreeDataComponent implements OnDestroy, OnInit, OnChanges {
   @Output() selected = new EventEmitter<ItemNode | ItemFlatNode []>();
-  @Input() autoSave = true;
-  @Input() selectFirst = false;
-  @Input() selectThis: number = null;
-  @Input() checkbox = false;
-  @Input() search = false;
-  @Input() selectAll = false;
-  @Input() multiple = true;
+  @Input() config: NgxTreeDataConfig;
   flatNodeMap = new Map<ItemFlatNode, ItemNode>();
   nestedNodeMap = new Map<ItemNode, ItemFlatNode>();
 
@@ -32,18 +28,20 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
 
   dataSource: MatTreeFlatDataSource<ItemNode, ItemFlatNode>;
 
-  checklistSelection = new SelectionModel<ItemFlatNode>(this.multiple);
+  checklistSelection;
+
   loaderId: string;
-  constructor(private database: NgxTreeDataService) {
-    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-      this.isExpandable, this.getChildren);
-    this.treeControl = new FlatTreeControl<ItemFlatNode>(this.getLevel, this.isExpandable);
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  }
+  constructor(private database: NgxTreeDataService) { }
+
 
   ngOnInit() {
+    this.checklistSelection = new SelectionModel<ItemFlatNode>(this.config.multiple);
+    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
+    this.treeControl = new FlatTreeControl<ItemFlatNode>(this.getLevel, this.isExpandable);
+    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
     this.database.dataChange.subscribe( data => {
-      if (this.selectFirst) {
+      if (this.config.selectFirst) {
         data.forEach( el => {
           if (el.children) {
             el.children.forEach( item => {
@@ -51,14 +49,21 @@ export class NgxTreeDataComponent implements OnDestroy, OnInit {
             });
           }
         });
-      } else if (this.selectThis) {
-        data.filter( (o: ItemNode) => (o.id as number) === (this.selectThis as number) )
+      } else if (this.config.selectThis) {
+        data.filter( (o: ItemNode) => (o.id as number) === (this.config.selectThis as number) )
           .map( (item: ItemNode ) => {
             this.selected.emit(item);
           });
       }
       this.dataSource.data = data;
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const { config } = changes;
+    if (config && !config.firstChange) {
+      this.checklistSelection = new SelectionModel<ItemFlatNode>(this.config.multiple);
+    }
   }
 
   getLevel = (node: ItemFlatNode) => node.level;

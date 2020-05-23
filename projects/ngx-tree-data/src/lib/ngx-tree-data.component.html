@@ -2,13 +2,13 @@
     <div class="box-flex align-self-center">
       <ng-content select=".title"></ng-content>
     </div>
-    <div *ngIf="search" class="box-flex float-right">
+    <div *ngIf="config.search" class="box-flex float-right">
       <mat-form-field>
         <input matInput placeholder="Search" (input)="filterChanged($event.target.value)" autocomplete="off">
       </mat-form-field>
     </div>
   </div>
-  <div class="flex" *ngIf="selectAll">
+  <div class="flex" *ngIf="config.selectAll">
     <div class="box-flex">
       <button mat-stroked-button (click)="selectAllOptions(true)">Select All</button>
     </div>
@@ -17,11 +17,11 @@
     </div>
   </div>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [style.padding]="checkbox ? '0px': '40px'">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [style.padding]="config.checkbox ? '0px': '40px'">
       <button mat-button (click)="selected.emit(node)" [disabled]="node.id == -1 ? true : false">
-        <span *ngIf="!checkbox">{{node.item}}</span>
+        <span *ngIf="!config.checkbox">{{node.item}}</span>
       </button>
-      <mat-checkbox *ngIf="checkbox"
+      <mat-checkbox *ngIf="config.checkbox"
         [checked]="checklistSelection.isSelected(node)"
         (change)="changeStatusNode(node)">{{node.item}}</mat-checkbox>
     </mat-tree-node>
@@ -30,9 +30,9 @@
               [attr.aria-label]="'toggle ' + node.name">
         <mat-icon> {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} </mat-icon>
       </button>
-      <mat-checkbox *ngIf="checkbox" 
+      <mat-checkbox *ngIf="config.checkbox" 
         [checked]="checklistSelection.isSelected(node)"
         (change)="changeStatusNode(node)">{{node.item}}</mat-checkbox>
-      <span *ngIf="!checkbox">{{node.item}}</span>
+      <span *ngIf="!config.checkbox">{{node.item}}</span>
     </mat-tree-node>
   </mat-tree>

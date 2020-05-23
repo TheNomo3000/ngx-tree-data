@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { ItemNode, TreeData } from 'projects/ngx-tree-data/src/lib/models/models';
 import { NgxTreeDataService } from 'projects/ngx-tree-data/src/public-api';
 import { DATA } from './data/data';
+import { NgxTreeDataConfig } from 'projects/ngx-tree-data/src/lib/models/config-model';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,17 @@ import { DATA } from './data/data';
 })
 export class AppComponent {
   @Output() selectedChange = new EventEmitter<ItemNode []>();
-  checkbox = true;
-  search = true;
-  autoSave = false;
+  config: NgxTreeDataConfig = {
+    autoSave: true,
+    selectFirst: false,
+    selectThis: -1,
+    checkbox: true,
+    search: false,
+    selectAll: false,
+    multiple: true,
+  };
+
   data = DATA;
-  selectAll = false;
   dataSelected;
   dataSource: TreeData [];
   selectedNodes: ItemNode [];

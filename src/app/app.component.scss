@@ -12,3 +12,14 @@
     display: flex;
     justify-content: space-between;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cont {
+    width: 50%;
+    min-width: 300px;
+}

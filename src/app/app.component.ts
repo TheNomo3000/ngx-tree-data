@@ -28,24 +28,6 @@ export class AppComponent {
   constructor(private treeService: NgxTreeDataService) {
     this.dataSource = JSON.parse(JSON.stringify(this.data));
     this.treeService.initialize(this.data);
-    this.treeService.dataChange.subscribe( (e) => {
-      console.log(e);
-    });
-  }
-
-  discardChanges() {
-    this.data = this.dataSource;
-    this.selectedNodes = null;
-    this.treeService.initialize(this.data);
-  }
-
-  saveChanges() {
-    this.data = [...this.treeService.externalData];
-    this.dataSource = [...this.treeService.externalData];
-    this.selectedChange.emit(this.selectedNodes);
-    console.log('DATA :', this.data);
-    console.log('DATAs :', this.dataSource);
-    this.treeService.initialize(this.data);
   }
 
   reloadConfig(e): void {

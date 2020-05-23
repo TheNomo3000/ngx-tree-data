@@ -173,5 +173,8 @@
       }
     }
   },
-  "defaultProject": "ngx-tree-data-project"
+  "defaultProject": "ngx-tree-data-project",
+  "cli": {
+    "analytics": "6b4cd22d-a8a3-4829-9e5b-ad859075488f"
+  }
 }

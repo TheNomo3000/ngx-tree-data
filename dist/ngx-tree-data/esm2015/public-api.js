@@ -1,0 +1,7 @@
+/*
+ * Public API Surface of ngx-tree-data
+ */
+export * from './lib/services/ngx-tree-data.service';
+export * from './lib/ngx-tree-data.component';
+export * from './lib/ngx-tree-data.module';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25neC10cmVlLWRhdGEvIiwic291cmNlcyI6WyJwdWJsaWMtYXBpLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztHQUVHO0FBRUgsY0FBYyxzQ0FBc0MsQ0FBQztBQUNyRCxjQUFjLCtCQUErQixDQUFDO0FBQzlDLGNBQWMsNEJBQTRCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxyXG4gKiBQdWJsaWMgQVBJIFN1cmZhY2Ugb2Ygbmd4LXRyZWUtZGF0YVxyXG4gKi9cclxuXHJcbmV4cG9ydCAqIGZyb20gJy4vbGliL3NlcnZpY2VzL25neC10cmVlLWRhdGEuc2VydmljZSc7XHJcbmV4cG9ydCAqIGZyb20gJy4vbGliL25neC10cmVlLWRhdGEuY29tcG9uZW50JztcclxuZXhwb3J0ICogZnJvbSAnLi9saWIvbmd4LXRyZWUtZGF0YS5tb2R1bGUnO1xyXG4iXX0=

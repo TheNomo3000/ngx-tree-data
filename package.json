@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:lib": " ng-packagr -p projects/ngx-tree-data/ng-package.json"
+    "build:lib": "ng-packagr -p projects/ngx-tree-data/ng-package.json"
   },
   "private": true,
   "dependencies": {
